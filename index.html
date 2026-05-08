@@ -8,208 +8,73 @@
 <meta name="mobile-web-app-capable" content="yes">
 <title>Doma — Jósean Log</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700;900&family=Great+Vibes&display=swap" rel="stylesheet">
-
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
-
 :root{--bg:#060408;}
-
-body{
-  overflow:hidden;
-  background:var(--bg);
-  font-family:'Cormorant Garamond',serif;
-  height:100vh;color:white;cursor:default;
-}
-
-/* ── BG ── */
-#bg{
-  position:fixed;inset:0;
-  background:
-    radial-gradient(ellipse at 15% 25%,rgba(168,85,247,.13),transparent 40%),
-    radial-gradient(ellipse at 85% 65%,rgba(245,200,66,.09),transparent 40%),
-    radial-gradient(ellipse at 50% 100%,rgba(239,68,68,.07),transparent 45%);
-  animation:bgBreath 9s ease-in-out infinite;
-}
+body{overflow:hidden;background:var(--bg);font-family:'Cormorant Garamond',serif;height:100vh;color:white;cursor:default;-webkit-tap-highlight-color:transparent;}
+#bg{position:fixed;inset:0;background:radial-gradient(ellipse at 15% 25%,rgba(168,85,247,.13),transparent 40%),radial-gradient(ellipse at 85% 65%,rgba(245,200,66,.09),transparent 40%),radial-gradient(ellipse at 50% 100%,rgba(239,68,68,.07),transparent 45%);animation:bgBreath 9s ease-in-out infinite;}
 @keyframes bgBreath{0%,100%{transform:scale(1);}50%{transform:scale(1.03);}}
-
-/* ── GRAIN ── */
-#grain{
-  position:fixed;inset:0;pointer-events:none;z-index:1;
-  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-  opacity:.3;
-}
-
-/* ── STARS ── */
-.star{
-  position:absolute;width:1.5px;height:1.5px;
-  border-radius:50%;background:white;
-  animation:twinkle linear infinite;
-}
+#grain{position:fixed;inset:0;pointer-events:none;z-index:1;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");opacity:.3;}
+.star{position:absolute;width:1.5px;height:1.5px;border-radius:50%;background:white;animation:twinkle linear infinite;}
 @keyframes twinkle{0%,100%{opacity:.06;}50%{opacity:.65;}}
 
-/* ── INTRO ── */
-#intro{
-  position:absolute;inset:0;
-  display:flex;flex-direction:column;
-  align-items:center;justify-content:center;
-  z-index:10;animation:fadeUp 1.4s ease both;
-}
-#intro h1{
-  font-family:'Great Vibes',cursive;
-  font-size:clamp(5rem,14vw,11rem);
-  background:linear-gradient(135deg,#fde68a,#f59e0b,#f9a8d4,#a855f7);
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-  animation:titleGlow 3s ease-in-out infinite;
-}
-@keyframes titleGlow{
-  0%,100%{filter:drop-shadow(0 0 30px rgba(245,200,66,.35));}
-  50%{filter:drop-shadow(0 0 65px rgba(249,168,212,.55));}
-}
-#intro p{
-  margin-top:10px;opacity:.4;
-  letter-spacing:.55em;font-size:.8rem;font-weight:700;
-}
-#startBtn{
-  margin-top:38px;padding:14px 50px;
-  border-radius:999px;border:1px solid rgba(245,200,66,.3);
-  background:rgba(245,200,66,.07);
-  color:rgba(255,255,255,.85);cursor:pointer;
-  font-family:'Cormorant Garamond',serif;
-  font-size:1rem;letter-spacing:.2em;
-  backdrop-filter:blur(12px);transition:.3s;
-}
-#startBtn:hover{
-  transform:scale(1.06);border-color:rgba(245,200,66,.7);
-  box-shadow:0 0 30px rgba(245,200,66,.3),0 0 60px rgba(249,168,212,.2);
-  background:rgba(245,200,66,.13);
-}
+/* INTRO */
+#intro{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:10;animation:fadeUp 1.4s ease both;}
+#intro h1{font-family:'Great Vibes',cursive;font-size:clamp(5rem,14vw,11rem);background:linear-gradient(135deg,#fde68a,#f59e0b,#f9a8d4,#a855f7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:titleGlow 3s ease-in-out infinite;}
+@keyframes titleGlow{0%,100%{filter:drop-shadow(0 0 30px rgba(245,200,66,.35));}50%{filter:drop-shadow(0 0 65px rgba(249,168,212,.55));}}
+#intro p{margin-top:10px;opacity:.4;letter-spacing:.55em;font-size:.8rem;font-weight:700;}
+#startBtn{margin-top:38px;padding:16px 54px;border-radius:999px;border:1px solid rgba(245,200,66,.3);background:rgba(245,200,66,.07);color:rgba(255,255,255,.85);cursor:pointer;font-family:'Cormorant Garamond',serif;font-size:1.1rem;letter-spacing:.2em;backdrop-filter:blur(12px);transition:.3s;/* más grande para móvil */min-width:200px;}
+#startBtn:hover,#startBtn:active{transform:scale(1.06);border-color:rgba(245,200,66,.7);box-shadow:0 0 30px rgba(245,200,66,.3),0 0 60px rgba(249,168,212,.2);background:rgba(245,200,66,.13);}
 
-/* ── STAGE ── */
-#stage{
-  position:fixed;inset:0;
-  display:none;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  z-index:10;
-  padding:20px;
-}
+/* STAGE */
+#stage{position:fixed;inset:0;display:none;flex-direction:column;justify-content:center;align-items:center;z-index:10;padding:20px;}
 
-/* ── LYRIC WRAP ──
-   Posición relativa para que los slots absolutos no afuera del flujo del stage.
-   El min-height evita que el layout brinque cuando no hay texto.
-*/
-#lyricWrap{
-  position:relative;
-  width:100%;
-  max-width:1100px;
-  min-height:calc(clamp(2.2rem,5.5vw,4.8rem) * 1.5);
-  display:flex;
-  justify-content:center;
-  align-items:center;
-}
+/* LYRIC WRAP */
+#lyricWrap{position:relative;width:100%;max-width:1100px;min-height:calc(clamp(2.2rem,5.5vw,4.8rem) * 1.5);display:flex;justify-content:center;align-items:center;}
 
-/* ── SLOTS ── */
-.slot{
-  position:absolute;
-  inset:0;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  text-align:center;
-  line-height:1.3;
-  font-size:clamp(2.2rem,5.5vw,4.8rem);
-  font-weight:900;
-  /* estado base: invisible */
-  opacity:0;
-  transform:translateY(24px) scale(.97);
-  filter:blur(10px);
-  transition:
-    opacity   .40s cubic-bezier(.22,1,.36,1),
-    transform .40s cubic-bezier(.22,1,.36,1),
-    filter    .40s cubic-bezier(.22,1,.36,1);
-  will-change:opacity,transform,filter;
-}
-/* entrando desde abajo */
-.slot.enter{
-  opacity:1;
-  transform:translateY(0) scale(1);
-  filter:blur(0);
-}
-/* saliendo hacia arriba */
-.slot.leave{
-  opacity:0;
-  transform:translateY(-16px) scale(1.01);
-  filter:blur(8px);
-  pointer-events:none;
-}
+/* SLOTS */
+.slot{position:absolute;inset:0;display:flex;justify-content:center;align-items:center;flex-wrap:wrap;text-align:center;line-height:1.3;font-size:clamp(2rem,5.5vw,4.8rem);font-weight:900;opacity:0;transform:translateY(24px) scale(.97);filter:blur(10px);transition:opacity .40s cubic-bezier(.22,1,.36,1),transform .40s cubic-bezier(.22,1,.36,1),filter .40s cubic-bezier(.22,1,.36,1);will-change:opacity,transform,filter;}
+.slot.enter{opacity:1;transform:translateY(0) scale(1);filter:blur(0);}
+.slot.leave{opacity:0;transform:translateY(-16px) scale(1.01);filter:blur(8px);pointer-events:none;}
 
-/* ── CHARS ── */
-.char{
-  display:inline-block;
-  color:rgba(255,255,255,.07);
-  transition:color .11s ease,text-shadow .11s ease;
-}
-.char.on{ animation:pop .2s ease both; }
+/* CHARS */
+.char{display:inline-block;color:rgba(255,255,255,.07);transition:color .11s ease,text-shadow .11s ease;}
+.char.on{animation:pop .2s ease both;}
 @keyframes pop{0%{transform:scale(1.15);}100%{transform:scale(1);}}
-
 .char.on[data-hue="gold"]  {color:#fde68a;text-shadow:0 0 3px #fff,0 0 12px #fde68a,0 0 30px #f59e0b,0 0 65px rgba(245,158,11,.5);}
 .char.on[data-hue="fire"]  {color:#fca5a5;text-shadow:0 0 3px #fff,0 0 12px #fca5a5,0 0 30px #ef4444,0 0 65px rgba(239,68,68,.5);}
 .char.on[data-hue="rose"]  {color:#fbcfe8;text-shadow:0 0 3px #fff,0 0 12px #fbcfe8,0 0 30px #ec4899,0 0 65px rgba(236,72,153,.5);}
 .char.on[data-hue="violet"]{color:#e9d5ff;text-shadow:0 0 3px #fff,0 0 12px #e9d5ff,0 0 30px #a855f7,0 0 65px rgba(168,85,247,.5);}
 .char.on[data-hue="ice"]   {color:#bae6fd;text-shadow:0 0 3px #fff,0 0 12px #bae6fd,0 0 30px #0ea5e9,0 0 65px rgba(14,165,233,.45);}
 
-/* ── NEXT ── */
-#next{
-  margin-top:32px;
-  opacity:.18;font-style:italic;
-  letter-spacing:.07em;font-size:.95rem;
-  transition:opacity .4s;
-  text-align:center;
-}
+/* NEXT */
+#next{margin-top:32px;opacity:.18;font-style:italic;letter-spacing:.07em;font-size:.95rem;transition:opacity .4s;text-align:center;}
 
-/* ── PROGRESS ── */
-#progressWrap{
-  position:fixed;left:0;bottom:0;
-  width:100%;height:3px;
-  background:rgba(255,255,255,.06);z-index:50;
-}
-#progress{
-  height:100%;width:0%;
-  background:linear-gradient(90deg,#a855f7,#f59e0b,#f9a8d4,#a855f7);
-  background-size:300% 100%;
-  animation:pgShift 5s linear infinite;
-  box-shadow:0 0 10px rgba(245,200,66,.5);
-}
+/* PROGRESS */
+#progressWrap{position:fixed;left:0;bottom:0;width:100%;height:3px;background:rgba(255,255,255,.06);z-index:50;}
+#progress{height:100%;width:0%;background:linear-gradient(90deg,#a855f7,#f59e0b,#f9a8d4,#a855f7);background-size:300% 100%;animation:pgShift 5s linear infinite;box-shadow:0 0 10px rgba(245,200,66,.5);}
 @keyframes pgShift{0%{background-position:0%;}100%{background-position:300%;}}
 
-/* ── NOTES ── */
-.note{
-  position:fixed;pointer-events:none;
-  animation:floatNote 4.5s ease-out forwards;
-}
-@keyframes floatNote{
-  0%{transform:translateY(0) rotate(-5deg);opacity:0;}
-  12%{opacity:.45;}
-  100%{transform:translateY(-260px) rotate(20deg);opacity:0;}
-}
+/* DEBUG TIMER */
+#dbg{position:fixed;top:12px;right:14px;background:rgba(0,0,0,.8);color:#fde68a;font-family:monospace;font-size:12px;padding:5px 12px;border-radius:8px;z-index:999;border:1px solid rgba(245,200,66,.3);line-height:1.8;white-space:pre;}
+
+/* NOTES */
+.note{position:fixed;pointer-events:none;animation:floatNote 4.5s ease-out forwards;}
+@keyframes floatNote{0%{transform:translateY(0) rotate(-5deg);opacity:0;}12%{opacity:.45;}100%{transform:translateY(-260px) rotate(20deg);opacity:0;}}
 
 @keyframes fadeUp{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
 </style>
 </head>
-
 <body>
 <div id="bg"></div>
 <div id="grain"></div>
 
-<!-- INTRO -->
 <div id="intro">
   <h1>Doma</h1>
   <p>JÓSEAN LOG</p>
   <button id="startBtn">▶ COMENZAR</button>
 </div>
 
-<!-- STAGE -->
 <div id="stage">
   <div id="lyricWrap">
     <div class="slot" id="slotA"></div>
@@ -218,101 +83,115 @@ body{
   <div id="next"></div>
 </div>
 
-<!-- PROGRESS -->
 <div id="progressWrap"><div id="progress"></div></div>
 
-<!-- DEBUG: muestra el tiempo actual para ajustar timestamps -->
-<div id="dbg" style="position:fixed;top:12px;right:14px;background:rgba(0,0,0,.75);color:#fde68a;font-family:monospace;font-size:13px;padding:6px 14px;border-radius:8px;z-index:999;border:1px solid rgba(245,200,66,.3);letter-spacing:.05em;line-height:1.8;"></div>
+<!-- DEBUG: muestra tiempo exacto en pantalla para ajustar timestamps -->
+<div id="dbg">⏱ 0.00s</div>
 
-<audio id="audio" preload="auto" playsinline webkit-playsinline x-webkit-airplay="allow">
-  <source src="Jo%CC%81sean%20Log%20-%20Doma%20%28Lyric%20Video%29.mp3" type="audio/mpeg">
+<!--
+  IMPORTANTE: renombra tu mp3 a exactamente  doma.mp3  en GitHub
+  para evitar problemas de encoding con tildes en móvil.
+-->
+<audio id="audio" preload="auto" playsinline webkit-playsinline>
   <source src="Jósean Log - Doma (Lyric Video).mp3" type="audio/mpeg">
-  <source src="doma.mp3" type="audio/mpeg">
 </audio>
 
 <script>
-/* ── STARS ── */
-for(let i=0;i<130;i++){
+/* STARS */
+for(let i=0;i<110;i++){
   const s=document.createElement('div');
   s.className='star';
   s.style.cssText=`left:${Math.random()*100}%;top:${Math.random()*100}%;animation-duration:${2+Math.random()*7}s;animation-delay:${Math.random()*6}s`;
   document.body.appendChild(s);
 }
 
-/* ── HUE MAP ── */
+/* HUE MAP */
 const HUE=[
-  'gold','gold','gold','gold','gold','gold','gold','gold',
-  'rose','rose','rose','rose',
-  'gold','gold','gold','fire',
-  'gold','gold','gold','gold','gold','gold','gold','gold',
-  'rose','rose','rose','rose',
-  'gold','gold','gold','fire',
-  'ice','ice','ice','ice',
-  'violet','violet','violet','violet'
+  'gold','gold','gold','gold','gold','gold','gold','gold', // 0-7  verso 1
+  'rose','rose','rose','rose',                             // 8-11 pre-coro 1
+  'gold','gold','gold','fire',                             // 12-15 coro 1
+  'gold','gold','gold','gold','gold','gold','gold','gold', // 16-23 verso 2
+  'rose','rose','rose','rose',                             // 24-27 pre-coro 2
+  'gold','gold','gold','fire',                             // 28-31 coro 2
+  'ice','ice','ice','ice',                                 // 32-35 bridge
+  'violet','violet','violet','violet'                      // 36-39 final
 ];
 
-/* ── LYRICS ── */
+/* ─────────────────────────────────────────────────────────
+   TIMESTAMPS — ajustados desde "En la oscuridad" (~+3s)
+   Si siguen desfasados, el debug timer te dirá el segundo
+   exacto para que me corrijas línea por línea.
+───────────────────────────────────────────────────────── */
 const L=[
-  {t:"Qué fatalidad,",                   s:12.00,e:14.30},
-  {t:"eres mi héroe y mi villana",        s:14.31,e:18.20},
-  {t:"Podría enloquecer",                 s:18.21,e:20.80},
-  {t:"descifrando tu conspiración",       s:20.81,e:25.20},
-  {t:"Muero por saber",                   s:25.21,e:27.30},
-  {t:"el desenlace de esta trama",        s:27.31,e:31.60},
-  {t:"comienza a anochecer",              s:31.61,e:35.00},
-  {t:"y el corazón va al descubierto",    s:35.01,e:40.40},
-  {t:"Debo interpretar tus gritos,",      s:41.20,e:45.00},
-  {t:"tus llamadas,",                     s:45.01,e:46.50},
-  {t:"tus caricias entre cortadas",       s:46.51,e:50.80},
-  {t:"y tus arranques de pasión",         s:50.81,e:55.50},
-  {t:"Debo buscar dentro",                s:56.00,e:58.70},
-  {t:"de tanto desperfecto",              s:58.71,e:61.80},
-  {t:"la moraleja de este cuento",        s:61.81,e:65.80},
-  {t:"Debo domar tu corazón",             s:65.81,e:70.80},
-  {t:"En la oscuridad,",                  s:76.20,e:79.00},
-  {t:"son los instintos los que mandan",  s:79.01,e:84.10},
-  {t:"Qué más quieres romper,",           s:84.11,e:87.20},
-  {t:"de corazones tienes colección",     s:87.21,e:92.20},
-  {t:"Ya va a amanecer",                  s:92.21,e:95.00},
-  {t:"y sigo en esta encrucijada",        s:95.01,e:99.80},
-  {t:"Misterio de mujer",                 s:99.81,e:102.40},
-  {t:"solo será cuestión de tiempo",      s:102.41,e:107.30},
-  {t:"Debo interpretar tus gritos,",      s:108.00,e:111.80},
-  {t:"tus llamadas,",                     s:111.81,e:113.20},
-  {t:"tus caricias entre cortadas",       s:113.21,e:117.50},
-  {t:"y tus arranques de pasión",         s:117.51,e:122.00},
-  {t:"Debo buscar dentro",                s:122.50,e:125.10},
-  {t:"de tanto desperfecto",              s:125.11,e:128.30},
-  {t:"la moraleja de este cuento",        s:128.31,e:132.20},
-  {t:"Debo domar tu corazón",             s:132.21,e:137.10},
-  {t:"Y debo de enterrar el filo",        s:138.00,e:141.50},
-  {t:"de tu espada",                      s:141.51,e:143.10},
-  {t:"en los secretos de tu almohada",    s:143.11,e:147.80},
-  {t:"hasta que entiendas la lección",    s:147.81,e:152.30},
-  {t:"Debo llegar al fondo",              s:153.00,e:155.80},
-  {t:"de este desparpajo",                s:155.81,e:158.80},
-  {t:"que yo de esta no me rajo",         s:158.81,e:163.20},
-  {t:"hasta domar tu corazón",            s:163.21,e:168.00}
+  // VERSO 1
+  {t:"Qué fatalidad,",                   s:12.00, e:14.30},
+  {t:"eres mi héroe y mi villana",        s:14.31, e:18.20},
+  {t:"Podría enloquecer",                 s:18.21, e:20.80},
+  {t:"descifrando tu conspiración",       s:20.81, e:25.20},
+  {t:"Muero por saber",                   s:25.21, e:27.30},
+  {t:"el desenlace de esta trama",        s:27.31, e:31.60},
+  {t:"comienza a anochecer",              s:31.61, e:35.00},
+  {t:"y el corazón va al descubierto",    s:35.01, e:40.40},
+  // PRE-CORO 1
+  {t:"Debo interpretar tus gritos,",      s:41.20, e:45.00},
+  {t:"tus llamadas,",                     s:45.01, e:46.50},
+  {t:"tus caricias entre cortadas",       s:46.51, e:50.80},
+  {t:"y tus arranques de pasión",         s:50.81, e:55.50},
+  // CORO 1
+  {t:"Debo buscar dentro",                s:56.00, e:58.70},
+  {t:"de tanto desperfecto",              s:58.71, e:61.80},
+  {t:"la moraleja de este cuento",        s:61.81, e:65.80},
+  {t:"Debo domar tu corazón",             s:65.81, e:71.50},
+  // VERSO 2 — +3s desde aquí en adelante
+  {t:"En la oscuridad,",                  s:79.00, e:82.00},
+  {t:"son los instintos los que mandan",  s:82.01, e:87.20},
+  {t:"Qué más quieres romper,",           s:87.21, e:90.30},
+  {t:"de corazones tienes colección",     s:90.31, e:95.30},
+  {t:"Ya va a amanecer",                  s:95.31, e:98.20},
+  {t:"y sigo en esta encrucijada",        s:98.21, e:103.00},
+  {t:"Misterio de mujer",                 s:103.01,e:105.60},
+  {t:"solo será cuestión de tiempo",      s:105.61,e:110.50},
+  // PRE-CORO 2
+  {t:"Debo interpretar tus gritos,",      s:111.20,e:115.00},
+  {t:"tus llamadas,",                     s:115.01,e:116.40},
+  {t:"tus caricias entre cortadas",       s:116.41,e:120.70},
+  {t:"y tus arranques de pasión",         s:120.71,e:125.20},
+  // CORO 2
+  {t:"Debo buscar dentro",                s:125.70,e:128.40},
+  {t:"de tanto desperfecto",              s:128.41,e:131.60},
+  {t:"la moraleja de este cuento",        s:131.61,e:135.50},
+  {t:"Debo domar tu corazón",             s:135.51,e:140.40},
+  // BRIDGE
+  {t:"Y debo de enterrar el filo",        s:141.20,e:144.70},
+  {t:"de tu espada",                      s:144.71,e:146.30},
+  {t:"en los secretos de tu almohada",    s:146.31,e:151.00},
+  {t:"hasta que entiendas la lección",    s:151.01,e:155.50},
+  // FINAL
+  {t:"Debo llegar al fondo",              s:156.20,e:159.00},
+  {t:"de este desparpajo",                s:159.01,e:162.00},
+  {t:"que yo de esta no me rajo",         s:162.01,e:166.40},
+  {t:"hasta domar tu corazón",            s:166.41,e:171.20}
 ];
 
-/* ── REFS ── */
+/* REFS */
 const audio  = document.getElementById('audio');
 const nextEl = document.getElementById('next');
 const progEl = document.getElementById('progress');
 const intro  = document.getElementById('intro');
 const stage  = document.getElementById('stage');
 const btn    = document.getElementById('startBtn');
+const dbg    = document.getElementById('dbg');
 const slotA  = document.getElementById('slotA');
 const slotB  = document.getElementById('slotB');
 const SLOTS  = [slotA, slotB];
 
-let active  = 0;   // índice del slot visible actual
+let active  = 0;
 let current = -1;
-let raf;
+let raf     = null;
 
-/* ── FILL ── */
+/* FILL */
 function fill(slot, idx){
-  const hue = HUE[idx]||'gold';
+  const hue=HUE[idx]||'gold';
   slot.innerHTML='';
   [...L[idx].t].forEach(ch=>{
     const sp=document.createElement('span');
@@ -323,48 +202,39 @@ function fill(slot, idx){
   });
 }
 
-/* ── CROSSFADE ──
-   Clave: los dos slots son position:absolute dentro del wrapper,
-   así el layout no se mueve. Ambas transiciones ocurren en el
-   mismo frame, nunca hay un frame vacío.
-*/
+/* CROSSFADE sin parpadeo */
 function showLine(idx){
-  const incoming = 1-active;
-
-  if(idx >= 0){
-    // Preparar slot entrante sin transición activa
-    fill(SLOTS[incoming], idx);
+  const incoming=1-active;
+  if(idx>=0){
+    fill(SLOTS[incoming],idx);
     SLOTS[incoming].classList.remove('enter','leave');
-    // Un único rAF para disparar ambas transiciones juntas
     requestAnimationFrame(()=>{
       SLOTS[active].classList.remove('enter');
       SLOTS[active].classList.add('leave');
       SLOTS[incoming].classList.add('enter');
-      active = incoming;
+      active=incoming;
     });
-    nextEl.textContent = L[idx+1] ? L[idx+1].t : '';
+    nextEl.textContent=L[idx+1]?L[idx+1].t:'';
   } else {
-    // Entre estrofas: solo salida del activo
     SLOTS[active].classList.remove('enter');
     SLOTS[active].classList.add('leave');
     nextEl.textContent='';
   }
 }
 
-/* ── ILLUMINATE ── */
+/* ILLUMINATE */
 function illuminate(p){
-  const chars = SLOTS[active].querySelectorAll('.char');
+  const chars=SLOTS[active].querySelectorAll('.char');
   if(!chars.length) return;
-  const n = chars.length;
-  const lit = Math.round(Math.pow(Math.min(p,1),.80)*n);
+  const lit=Math.round(Math.pow(Math.min(p,1),.80)*chars.length);
   chars.forEach((c,i)=>{
-    const on = i<lit;
-    if(on !== c.classList.contains('on'))
-      on ? c.classList.add('on') : c.classList.remove('on');
+    const on=i<lit;
+    if(on!==c.classList.contains('on'))
+      on?c.classList.add('on'):c.classList.remove('on');
   });
 }
 
-/* ── FIND (binary search) ── */
+/* BINARY SEARCH */
 function findLine(t){
   let lo=0,hi=L.length-1;
   while(lo<=hi){
@@ -376,20 +246,22 @@ function findLine(t){
   return -1;
 }
 
-/* ── TICK ── */
-const dbg = document.getElementById('dbg');
+/* TICK */
 function tick(){
   const t=audio.currentTime;
   if(audio.duration) progEl.style.width=(t/audio.duration)*100+'%';
+
   const found=findLine(t);
   if(found!==current){ current=found; showLine(found); }
   if(found>=0) illuminate((t-L[found].s)/(L[found].e-L[found].s));
-  // Debug: tiempo actual + índice de línea
-  if(dbg) dbg.textContent = `⏱ ${t.toFixed(2)}s\n#${found>=0?found:'–'} ${found>=0?L[found].t.slice(0,18):'(silencio)'}`;
+
+  // Debug timer — muestra tiempo y línea actual
+  dbg.textContent=`⏱ ${t.toFixed(2)}s  #${found>=0?found:'–'}\n${found>=0?L[found].t.slice(0,22):'silencio'}`;
+
   raf=requestAnimationFrame(tick);
 }
 
-/* ── NOTES ── */
+/* NOTES */
 const NOTES=['♪','♫','♩','♬'];
 const CLRS={gold:'#fde68a',fire:'#fca5a5',rose:'#fbcfe8',violet:'#e9d5ff',ice:'#bae6fd'};
 setInterval(()=>{
@@ -404,47 +276,44 @@ setInterval(()=>{
   setTimeout(()=>n.remove(),4600);
 },1100);
 
-/* ── START ──
-   En iOS/Android el audio SOLO puede iniciar dentro de un evento
-   de usuario (click/touchstart) y de forma síncrona.
-   No usar async/await ni Promises antes de .play().
-*/
+/* ─────────────────────────────────────────────────────────
+   START — la clave para iOS/Android:
+   .play() se llama SINCRÓNICAMENTE dentro del handler,
+   antes de cualquier await o código asíncrono.
+   Esto es lo que iOS Safari exige para permitir audio.
+───────────────────────────────────────────────────────── */
 btn.addEventListener('click', function(){
   intro.style.display='none';
   stage.style.display='flex';
 
-  // Llamada síncrona dentro del evento — iOS la acepta
-  const playPromise = audio.play();
+  // play() SÍNCRONO — iOS lo acepta porque estamos dentro del evento
+  const p = audio.play();
 
-  if(playPromise !== undefined){
-    playPromise
-      .then(()=>{
-        // Reproducción iniciada correctamente
-        if(!raf) raf=requestAnimationFrame(tick);
-      })
-      .catch(err=>{
-        console.error('Audio error:', err);
-        // Mostrar mensaje de error útil sin alert() (bloquea en móvil)
-        const msg=document.createElement('div');
-        msg.style.cssText='position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(0,0,0,.85);z-index:999;padding:30px;text-align:center;font-size:1rem;line-height:1.6;color:#fde68a;';
-        msg.innerHTML=`<div style="font-size:2rem;margin-bottom:16px">⚠️</div>
-          <b>No se encontró el audio</b><br><br>
-          Asegúrate de que el archivo se llame exactamente:<br>
-          <code style="background:rgba(255,255,255,.1);padding:4px 10px;border-radius:6px;margin-top:8px;display:inline-block">
-            Jósean Log - Doma (Lyric Video).mp3
-          </code><br><br>
-          y esté en la misma carpeta que el index.html`;
-        const close=document.createElement('button');
-        close.textContent='✕ Cerrar';
-        close.style.cssText='margin-top:20px;padding:10px 28px;border-radius:999px;border:1px solid rgba(255,255,255,.3);background:transparent;color:white;cursor:pointer;font-size:.9rem;';
-        close.onclick=()=>msg.remove();
-        msg.appendChild(close);
-        document.body.appendChild(msg);
-      });
+  if(p !== undefined){
+    p.then(()=>{
+      if(!raf) raf = requestAnimationFrame(tick);
+    }).catch(err=>{
+      console.error(err);
+      // Error visible sin alert (alert bloquea en iOS)
+      const box=document.createElement('div');
+      box.style.cssText='position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.9);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:30px;text-align:center;color:#fde68a;font-size:1rem;line-height:1.7;';
+      box.innerHTML=`<div style="font-size:2.5rem;margin-bottom:12px">🎵</div>
+        <b style="font-size:1.2rem">Audio no encontrado</b><br><br>
+        El archivo debe llamarse exactamente:<br>
+        <code style="background:rgba(255,255,255,.1);padding:4px 14px;border-radius:6px;margin:8px 0;display:inline-block;font-size:.95rem">doma.mp3</code><br><br>
+        <span style="opacity:.6;font-size:.85rem">y estar en la misma carpeta que index.html</span>`;
+      const x=document.createElement('button');
+      x.textContent='Cerrar';
+      x.style.cssText='margin-top:24px;padding:12px 32px;border-radius:999px;border:1px solid rgba(255,255,255,.3);background:transparent;color:white;font-size:1rem;cursor:pointer;';
+      x.onclick=()=>box.remove();
+      box.appendChild(x);
+      document.body.appendChild(box);
+    });
   }
 });
-audio.addEventListener('pause',()=>{ cancelAnimationFrame(raf); raf=null; });
-audio.addEventListener('play', ()=>{ if(!raf) raf=requestAnimationFrame(tick); });
+
+audio.addEventListener('pause', ()=>{ cancelAnimationFrame(raf); raf=null; });
+audio.addEventListener('play',  ()=>{ if(!raf) raf=requestAnimationFrame(tick); });
 </script>
 </body>
 </html>
