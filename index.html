@@ -3,898 +3,410 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Doma — Jósean Log</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700;900&family=Great+Vibes&display=swap" rel="stylesheet">
 
 <style>
+*{margin:0;padding:0;box-sizing:border-box;}
 
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
+:root{--bg:#060408;}
 
 body{
   overflow:hidden;
-  background:#000;
-  font-family:'Playfair Display', serif;
-  height:100vh;
-  color:white;
+  background:var(--bg);
+  font-family:'Cormorant Garamond',serif;
+  height:100vh;color:white;cursor:default;
 }
 
-/* =========================
-   BACKGROUND
-========================= */
-
+/* ── BG ── */
 #bg{
-  position:fixed;
-  inset:0;
-
+  position:fixed;inset:0;
   background:
-    radial-gradient(circle at 20% 20%, rgba(168,85,247,.18), transparent 35%),
-    radial-gradient(circle at 80% 70%, rgba(249,168,212,.15), transparent 35%),
-    radial-gradient(circle at center, rgba(255,255,255,.03), transparent 70%);
+    radial-gradient(ellipse at 15% 25%,rgba(168,85,247,.13),transparent 40%),
+    radial-gradient(ellipse at 85% 65%,rgba(245,200,66,.09),transparent 40%),
+    radial-gradient(ellipse at 50% 100%,rgba(239,68,68,.07),transparent 45%);
+  animation:bgBreath 9s ease-in-out infinite;
+}
+@keyframes bgBreath{0%,100%{transform:scale(1);}50%{transform:scale(1.03);}}
 
-  animation:bgPulse 8s ease-in-out infinite;
+/* ── GRAIN ── */
+#grain{
+  position:fixed;inset:0;pointer-events:none;z-index:1;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  opacity:.3;
 }
 
-@keyframes bgPulse{
-
-  0%,100%{
-    transform:scale(1);
-  }
-
-  50%{
-    transform:scale(1.04);
-  }
-}
-
-/* =========================
-   STARS
-========================= */
-
+/* ── STARS ── */
 .star{
-
-  position:absolute;
-
-  width:2px;
-  height:2px;
-
-  border-radius:50%;
-
-  background:white;
-
-  opacity:.2;
-
+  position:absolute;width:1.5px;height:1.5px;
+  border-radius:50%;background:white;
   animation:twinkle linear infinite;
 }
+@keyframes twinkle{0%,100%{opacity:.06;}50%{opacity:.65;}}
 
-@keyframes twinkle{
-
-  0%,100%{
-    opacity:.1;
-  }
-
-  50%{
-    opacity:.9;
-  }
-}
-
-/* =========================
-   INTRO
-========================= */
-
+/* ── INTRO ── */
 #intro{
-
-  position:absolute;
-  inset:0;
-
-  display:flex;
-  flex-direction:column;
-
-  align-items:center;
-  justify-content:center;
-
-  z-index:5;
-
-  animation:fadeIn 1.2s ease;
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  z-index:10;animation:fadeUp 1.4s ease both;
 }
-
 #intro h1{
-
   font-family:'Great Vibes',cursive;
-
-  font-size:clamp(5rem,13vw,11rem);
-
-  color:#f9a8d4;
-
-  text-shadow:
-    0 0 10px #fff,
-    0 0 30px #f9a8d4,
-    0 0 60px #a855f7;
+  font-size:clamp(5rem,14vw,11rem);
+  background:linear-gradient(135deg,#fde68a,#f59e0b,#f9a8d4,#a855f7);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  animation:titleGlow 3s ease-in-out infinite;
 }
-
+@keyframes titleGlow{
+  0%,100%{filter:drop-shadow(0 0 30px rgba(245,200,66,.35));}
+  50%{filter:drop-shadow(0 0 65px rgba(249,168,212,.55));}
+}
 #intro p{
-
-  margin-top:12px;
-
-  opacity:.6;
-
-  letter-spacing:.4em;
+  margin-top:10px;opacity:.4;
+  letter-spacing:.55em;font-size:.8rem;font-weight:700;
 }
-
 #startBtn{
-
-  margin-top:35px;
-
-  padding:15px 45px;
-
-  border:none;
-
-  border-radius:999px;
-
-  background:rgba(168,85,247,.15);
-
-  color:white;
-
-  cursor:pointer;
-
-  font-size:1rem;
-
-  border:1px solid rgba(255,255,255,.15);
-
-  backdrop-filter:blur(10px);
-
-  transition:.35s;
+  margin-top:38px;padding:14px 50px;
+  border-radius:999px;border:1px solid rgba(245,200,66,.3);
+  background:rgba(245,200,66,.07);
+  color:rgba(255,255,255,.85);cursor:pointer;
+  font-family:'Cormorant Garamond',serif;
+  font-size:1rem;letter-spacing:.2em;
+  backdrop-filter:blur(12px);transition:.3s;
 }
-
 #startBtn:hover{
-
-  transform:scale(1.05);
-
-  box-shadow:
-    0 0 25px rgba(168,85,247,.6),
-    0 0 50px rgba(249,168,212,.45);
+  transform:scale(1.06);border-color:rgba(245,200,66,.7);
+  box-shadow:0 0 30px rgba(245,200,66,.3),0 0 60px rgba(249,168,212,.2);
+  background:rgba(245,200,66,.13);
 }
 
-/* =========================
-   STAGE
-========================= */
-
+/* ── STAGE ── */
 #stage{
-
-  position:absolute;
-  inset:0;
-
+  position:fixed;inset:0;
   display:none;
-
+  flex-direction:column;
   justify-content:center;
   align-items:center;
-  flex-direction:column;
-
+  z-index:10;
   padding:20px;
-
-  z-index:5;
 }
 
-/* =========================
-   LYRICS
-========================= */
-
-#line{
-
+/* ── LYRIC WRAP ──
+   Posición relativa para que los slots absolutos no afuera del flujo del stage.
+   El min-height evita que el layout brinque cuando no hay texto.
+*/
+#lyricWrap{
+  position:relative;
+  width:100%;
   max-width:1100px;
-
-  text-align:center;
-
-  line-height:1.35;
-
-  font-size:clamp(2rem,5vw,4.3rem);
-
-  font-weight:700;
-
-  opacity:0;
-
-  transform:
-    translateY(25px)
-    scale(.98);
-
-  filter:blur(10px);
-
-  transition:
-    opacity .7s ease,
-    transform .7s ease,
-    filter .7s ease;
+  min-height:calc(clamp(2.2rem,5.5vw,4.8rem) * 1.5);
+  display:flex;
+  justify-content:center;
+  align-items:center;
 }
 
-#line.active{
-
+/* ── SLOTS ── */
+.slot{
+  position:absolute;
+  inset:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  line-height:1.3;
+  font-size:clamp(2.2rem,5.5vw,4.8rem);
+  font-weight:900;
+  /* estado base: invisible */
+  opacity:0;
+  transform:translateY(24px) scale(.97);
+  filter:blur(10px);
+  transition:
+    opacity   .40s cubic-bezier(.22,1,.36,1),
+    transform .40s cubic-bezier(.22,1,.36,1),
+    filter    .40s cubic-bezier(.22,1,.36,1);
+  will-change:opacity,transform,filter;
+}
+/* entrando desde abajo */
+.slot.enter{
   opacity:1;
-
-  transform:
-    translateY(0)
-    scale(1);
-
+  transform:translateY(0) scale(1);
   filter:blur(0);
 }
-
-.char{
-
-  color:rgba(255,255,255,.08);
-
-  transition:
-    color .18s ease,
-    text-shadow .18s ease,
-    filter .18s ease;
-}
-
-.char.on{
-
-  color:white;
-
-  filter:blur(.2px);
-
-  text-shadow:
-    0 0 5px #fff,
-    0 0 15px #d8b4fe,
-    0 0 30px #a855f7,
-    0 0 60px rgba(168,85,247,.65);
-}
-
-/* =========================
-   NEXT
-========================= */
-
-#next{
-
-  position:absolute;
-
-  bottom:95px;
-
-  opacity:.25;
-
-  font-style:italic;
-
-  letter-spacing:.08em;
-
-  font-size:1rem;
-}
-
-/* =========================
-   PROGRESS
-========================= */
-
-#progressWrap{
-
-  position:fixed;
-
-  left:0;
-  bottom:0;
-
-  width:100%;
-  height:4px;
-
-  background:rgba(255,255,255,.08);
-
-  z-index:50;
-}
-
-#progress{
-
-  width:0%;
-  height:100%;
-
-  background:
-    linear-gradient(
-      90deg,
-      #a855f7,
-      #f9a8d4
-    );
-
-  box-shadow:
-    0 0 10px #a855f7,
-    0 0 20px #f9a8d4;
-}
-
-/* =========================
-   NOTES
-========================= */
-
-.note{
-
-  position:absolute;
-
-  color:rgba(255,255,255,.2);
-
+/* saliendo hacia arriba */
+.slot.leave{
+  opacity:0;
+  transform:translateY(-16px) scale(1.01);
+  filter:blur(8px);
   pointer-events:none;
-
-  animation:float 5s linear forwards;
 }
 
-@keyframes float{
+/* ── CHARS ── */
+.char{
+  display:inline-block;
+  color:rgba(255,255,255,.07);
+  transition:color .11s ease,text-shadow .11s ease;
+}
+.char.on{ animation:pop .2s ease both; }
+@keyframes pop{0%{transform:scale(1.15);}100%{transform:scale(1);}}
 
-  0%{
-    transform:
-      translateY(0)
-      rotate(0deg);
+.char.on[data-hue="gold"]  {color:#fde68a;text-shadow:0 0 3px #fff,0 0 12px #fde68a,0 0 30px #f59e0b,0 0 65px rgba(245,158,11,.5);}
+.char.on[data-hue="fire"]  {color:#fca5a5;text-shadow:0 0 3px #fff,0 0 12px #fca5a5,0 0 30px #ef4444,0 0 65px rgba(239,68,68,.5);}
+.char.on[data-hue="rose"]  {color:#fbcfe8;text-shadow:0 0 3px #fff,0 0 12px #fbcfe8,0 0 30px #ec4899,0 0 65px rgba(236,72,153,.5);}
+.char.on[data-hue="violet"]{color:#e9d5ff;text-shadow:0 0 3px #fff,0 0 12px #e9d5ff,0 0 30px #a855f7,0 0 65px rgba(168,85,247,.5);}
+.char.on[data-hue="ice"]   {color:#bae6fd;text-shadow:0 0 3px #fff,0 0 12px #bae6fd,0 0 30px #0ea5e9,0 0 65px rgba(14,165,233,.45);}
 
-    opacity:0;
-  }
-
-  15%{
-    opacity:.45;
-  }
-
-  100%{
-    transform:
-      translateY(-240px)
-      rotate(18deg);
-
-    opacity:0;
-  }
+/* ── NEXT ── */
+#next{
+  margin-top:32px;
+  opacity:.18;font-style:italic;
+  letter-spacing:.07em;font-size:.95rem;
+  transition:opacity .4s;
+  text-align:center;
 }
 
-/* =========================
-   FADE
-========================= */
+/* ── PROGRESS ── */
+#progressWrap{
+  position:fixed;left:0;bottom:0;
+  width:100%;height:3px;
+  background:rgba(255,255,255,.06);z-index:50;
+}
+#progress{
+  height:100%;width:0%;
+  background:linear-gradient(90deg,#a855f7,#f59e0b,#f9a8d4,#a855f7);
+  background-size:300% 100%;
+  animation:pgShift 5s linear infinite;
+  box-shadow:0 0 10px rgba(245,200,66,.5);
+}
+@keyframes pgShift{0%{background-position:0%;}100%{background-position:300%;}}
 
-@keyframes fadeIn{
-
-  from{
-    opacity:0;
-    transform:translateY(20px);
-  }
-
-  to{
-    opacity:1;
-    transform:translateY(0);
-  }
+/* ── NOTES ── */
+.note{
+  position:fixed;pointer-events:none;
+  animation:floatNote 4.5s ease-out forwards;
+}
+@keyframes floatNote{
+  0%{transform:translateY(0) rotate(-5deg);opacity:0;}
+  12%{opacity:.45;}
+  100%{transform:translateY(-260px) rotate(20deg);opacity:0;}
 }
 
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
 </style>
 </head>
 
 <body>
-
 <div id="bg"></div>
+<div id="grain"></div>
 
 <!-- INTRO -->
-
 <div id="intro">
-
   <h1>Doma</h1>
-
   <p>JÓSEAN LOG</p>
-
-  <button id="startBtn">
-    ▶ COMENZAR
-  </button>
-
+  <button id="startBtn">▶ COMENZAR</button>
 </div>
 
 <!-- STAGE -->
-
 <div id="stage">
-
-  <div id="line"></div>
-
+  <div id="lyricWrap">
+    <div class="slot" id="slotA"></div>
+    <div class="slot" id="slotB"></div>
+  </div>
   <div id="next"></div>
-
 </div>
 
 <!-- PROGRESS -->
-
-<div id="progressWrap">
-
-  <div id="progress"></div>
-
-</div>
-
-<!-- AUDIO -->
-<!-- IMPORTANTE:
-     El mp3 debe llamarse:
-     doma.mp3
--->
+<div id="progressWrap"><div id="progress"></div></div>
 
 <audio id="audio" preload="auto">
-
-  <source src="doma.mp3" type="audio/mpeg">
-
+  <source src="Jósean Log - Doma (Lyric Video).mp3" type="video/mp4">
 </audio>
 
 <script>
-
-/* =========================
-   STARS
-========================= */
-
-for(let i=0;i<120;i++){
-
-  const star=document.createElement('div');
-
-  star.className='star';
-
-  star.style.left=Math.random()*100+'%';
-
-  star.style.top=Math.random()*100+'%';
-
-  star.style.animationDuration=
-    (2+Math.random()*6)+'s';
-
-  document.body.appendChild(star);
+/* ── STARS ── */
+for(let i=0;i<130;i++){
+  const s=document.createElement('div');
+  s.className='star';
+  s.style.cssText=`left:${Math.random()*100}%;top:${Math.random()*100}%;animation-duration:${2+Math.random()*7}s;animation-delay:${Math.random()*6}s`;
+  document.body.appendChild(s);
 }
 
-/* =========================
-   LYRICS
-========================= */
-
-const lyrics = [
-
-{
-  text:"Qué fatalidad,",
-  start:12.00,
-  end:14.30
-},
-
-{
-  text:"eres mi héroe y mi villana",
-  start:14.31,
-  end:18.20
-},
-
-{
-  text:"Podría enloquecer",
-  start:18.21,
-  end:20.80
-},
-
-{
-  text:"descifrando tu conspiración",
-  start:20.81,
-  end:25.20
-},
-
-{
-  text:"Muero por saber",
-  start:25.21,
-  end:27.30
-},
-
-{
-  text:"el desenlace de esta trama",
-  start:27.31,
-  end:31.60
-},
-
-{
-  text:"comienza a anochecer",
-  start:31.61,
-  end:35.00
-},
-
-{
-  text:"y el corazón va al descubierto",
-  start:35.01,
-  end:40.40
-},
-
-{
-  text:"Debo interpretar tus gritos,",
-  start:41.20,
-  end:45.00
-},
-
-{
-  text:"tus llamadas,",
-  start:45.01,
-  end:46.50
-},
-
-{
-  text:"tus caricias entre cortadas",
-  start:46.51,
-  end:50.80
-},
-
-{
-  text:"y tus arranques de pasión",
-  start:50.81,
-  end:55.50
-},
-
-{
-  text:"Debo buscar dentro",
-  start:56.00,
-  end:58.70
-},
-
-{
-  text:"de tanto desperfecto",
-  start:58.71,
-  end:61.80
-},
-
-{
-  text:"la moraleja de este cuento",
-  start:61.81,
-  end:65.80
-},
-
-{
-  text:"Debo domar tu corazón",
-  start:65.81,
-  end:70.80
-},
-
-{
-  text:"En la oscuridad,",
-  start:76.20,
-  end:79.00
-},
-
-{
-  text:"son los instintos los que mandan",
-  start:79.01,
-  end:84.10
-},
-
-{
-  text:"Qué más quieres romper,",
-  start:84.11,
-  end:87.20
-},
-
-{
-  text:"de corazones tienes colección",
-  start:87.21,
-  end:92.20
-},
-
-{
-  text:"Ya va a amanecer",
-  start:92.21,
-  end:95.00
-},
-
-{
-  text:"y sigo en esta encrucijada",
-  start:95.01,
-  end:99.80
-},
-
-{
-  text:"Misterio de mujer",
-  start:99.81,
-  end:102.40
-},
-
-{
-  text:"solo será cuestión de tiempo",
-  start:102.41,
-  end:107.30
-},
-
-{
-  text:"Debo interpretar tus gritos,",
-  start:108.00,
-  end:111.80
-},
-
-{
-  text:"tus llamadas,",
-  start:111.81,
-  end:113.20
-},
-
-{
-  text:"tus caricias entre cortadas",
-  start:113.21,
-  end:117.50
-},
-
-{
-  text:"y tus arranques de pasión",
-  start:117.51,
-  end:122.00
-},
-
-{
-  text:"Debo buscar dentro",
-  start:122.50,
-  end:125.10
-},
-
-{
-  text:"de tanto desperfecto",
-  start:125.11,
-  end:128.30
-},
-
-{
-  text:"la moraleja de este cuento",
-  start:128.31,
-  end:132.20
-},
-
-{
-  text:"Debo domar tu corazón",
-  start:132.21,
-  end:137.10
-},
-
-{
-  text:"Y debo de enterrar el filo",
-  start:138.00,
-  end:141.50
-},
-
-{
-  text:"de tu espada",
-  start:141.51,
-  end:143.10
-},
-
-{
-  text:"en los secretos de tu almohada",
-  start:143.11,
-  end:147.80
-},
-
-{
-  text:"hasta que entiendas la lección",
-  start:147.81,
-  end:152.30
-},
-
-{
-  text:"Debo llegar al fondo",
-  start:153.00,
-  end:155.80
-},
-
-{
-  text:"de este desparpajo",
-  start:155.81,
-  end:158.80
-},
-
-{
-  text:"que yo de esta no me rajo",
-  start:158.81,
-  end:163.20
-},
-
-{
-  text:"hasta domar tu corazón",
-  start:163.21,
-  end:168.00
-}
-
+/* ── HUE MAP ── */
+const HUE=[
+  'gold','gold','gold','gold','gold','gold','gold','gold',
+  'rose','rose','rose','rose',
+  'gold','gold','gold','fire',
+  'gold','gold','gold','gold','gold','gold','gold','gold',
+  'rose','rose','rose','rose',
+  'gold','gold','gold','fire',
+  'ice','ice','ice','ice',
+  'violet','violet','violet','violet'
 ];
 
-/* =========================
-   ELEMENTS
-========================= */
+/* ── LYRICS ── */
+const L=[
+  {t:"Qué fatalidad,",                   s:12.00,e:14.30},
+  {t:"eres mi héroe y mi villana",        s:14.31,e:18.20},
+  {t:"Podría enloquecer",                 s:18.21,e:20.80},
+  {t:"descifrando tu conspiración",       s:20.81,e:25.20},
+  {t:"Muero por saber",                   s:25.21,e:27.30},
+  {t:"el desenlace de esta trama",        s:27.31,e:31.60},
+  {t:"comienza a anochecer",              s:31.61,e:35.00},
+  {t:"y el corazón va al descubierto",    s:35.01,e:40.40},
+  {t:"Debo interpretar tus gritos,",      s:41.20,e:45.00},
+  {t:"tus llamadas,",                     s:45.01,e:46.50},
+  {t:"tus caricias entre cortadas",       s:46.51,e:50.80},
+  {t:"y tus arranques de pasión",         s:50.81,e:55.50},
+  {t:"Debo buscar dentro",                s:56.00,e:58.70},
+  {t:"de tanto desperfecto",              s:58.71,e:61.80},
+  {t:"la moraleja de este cuento",        s:61.81,e:65.80},
+  {t:"Debo domar tu corazón",             s:65.81,e:70.80},
+  {t:"En la oscuridad,",                  s:76.20,e:79.00},
+  {t:"son los instintos los que mandan",  s:79.01,e:84.10},
+  {t:"Qué más quieres romper,",           s:84.11,e:87.20},
+  {t:"de corazones tienes colección",     s:87.21,e:92.20},
+  {t:"Ya va a amanecer",                  s:92.21,e:95.00},
+  {t:"y sigo en esta encrucijada",        s:95.01,e:99.80},
+  {t:"Misterio de mujer",                 s:99.81,e:102.40},
+  {t:"solo será cuestión de tiempo",      s:102.41,e:107.30},
+  {t:"Debo interpretar tus gritos,",      s:108.00,e:111.80},
+  {t:"tus llamadas,",                     s:111.81,e:113.20},
+  {t:"tus caricias entre cortadas",       s:113.21,e:117.50},
+  {t:"y tus arranques de pasión",         s:117.51,e:122.00},
+  {t:"Debo buscar dentro",                s:122.50,e:125.10},
+  {t:"de tanto desperfecto",              s:125.11,e:128.30},
+  {t:"la moraleja de este cuento",        s:128.31,e:132.20},
+  {t:"Debo domar tu corazón",             s:132.21,e:137.10},
+  {t:"Y debo de enterrar el filo",        s:138.00,e:141.50},
+  {t:"de tu espada",                      s:141.51,e:143.10},
+  {t:"en los secretos de tu almohada",    s:143.11,e:147.80},
+  {t:"hasta que entiendas la lección",    s:147.81,e:152.30},
+  {t:"Debo llegar al fondo",              s:153.00,e:155.80},
+  {t:"de este desparpajo",                s:155.81,e:158.80},
+  {t:"que yo de esta no me rajo",         s:158.81,e:163.20},
+  {t:"hasta domar tu corazón",            s:163.21,e:168.00}
+];
 
-const audio=document.getElementById('audio');
+/* ── REFS ── */
+const audio  = document.getElementById('audio');
+const nextEl = document.getElementById('next');
+const progEl = document.getElementById('progress');
+const intro  = document.getElementById('intro');
+const stage  = document.getElementById('stage');
+const btn    = document.getElementById('startBtn');
+const slotA  = document.getElementById('slotA');
+const slotB  = document.getElementById('slotB');
+const SLOTS  = [slotA, slotB];
 
-const line=document.getElementById('line');
+let active  = 0;   // índice del slot visible actual
+let current = -1;
+let raf;
 
-const next=document.getElementById('next');
-
-const progress=document.getElementById('progress');
-
-const intro=document.getElementById('intro');
-
-const stage=document.getElementById('stage');
-
-const startBtn=document.getElementById('startBtn');
-
-let current=-1;
-
-/* =========================
-   RENDER LINE
-========================= */
-
-function renderLine(text){
-
-  line.innerHTML='';
-
-  [...text].forEach(char=>{
-
-    const span=document.createElement('span');
-
-    span.className='char';
-
-    span.innerHTML=
-      char===' '
-      ? '&nbsp;'
-      : char;
-
-    line.appendChild(span);
-  });
-
-  requestAnimationFrame(()=>{
-
-    line.classList.add('active');
-
-  });
-}
-
-/* =========================
-   ILLUMINATE
-========================= */
-
-function illuminate(progressValue){
-
-  const chars=document.querySelectorAll('.char');
-
-  const total=chars.length;
-
-  const lit=Math.floor(progressValue*total);
-
-  chars.forEach((char,index)=>{
-
-    if(index<lit){
-
-      char.classList.add('on');
-
-    }else{
-
-      char.classList.remove('on');
-    }
+/* ── FILL ── */
+function fill(slot, idx){
+  const hue = HUE[idx]||'gold';
+  slot.innerHTML='';
+  [...L[idx].t].forEach(ch=>{
+    const sp=document.createElement('span');
+    sp.className='char';
+    sp.dataset.hue=hue;
+    sp.innerHTML=ch===' '?'&nbsp;':ch;
+    slot.appendChild(sp);
   });
 }
 
-/* =========================
-   UPDATE LYRICS
-========================= */
+/* ── CROSSFADE ──
+   Clave: los dos slots son position:absolute dentro del wrapper,
+   así el layout no se mueve. Ambas transiciones ocurren en el
+   mismo frame, nunca hay un frame vacío.
+*/
+function showLine(idx){
+  const incoming = 1-active;
 
-audio.addEventListener('timeupdate', ()=>{
+  if(idx >= 0){
+    // Preparar slot entrante sin transición activa
+    fill(SLOTS[incoming], idx);
+    SLOTS[incoming].classList.remove('enter','leave');
+    // Un único rAF para disparar ambas transiciones juntas
+    requestAnimationFrame(()=>{
+      SLOTS[active].classList.remove('enter');
+      SLOTS[active].classList.add('leave');
+      SLOTS[incoming].classList.add('enter');
+      active = incoming;
+    });
+    nextEl.textContent = L[idx+1] ? L[idx+1].t : '';
+  } else {
+    // Entre estrofas: solo salida del activo
+    SLOTS[active].classList.remove('enter');
+    SLOTS[active].classList.add('leave');
+    nextEl.textContent='';
+  }
+}
 
+/* ── ILLUMINATE ── */
+function illuminate(p){
+  const chars = SLOTS[active].querySelectorAll('.char');
+  if(!chars.length) return;
+  const n = chars.length;
+  const lit = Math.round(Math.pow(Math.min(p,1),.80)*n);
+  chars.forEach((c,i)=>{
+    const on = i<lit;
+    if(on !== c.classList.contains('on'))
+      on ? c.classList.add('on') : c.classList.remove('on');
+  });
+}
+
+/* ── FIND (binary search) ── */
+function findLine(t){
+  let lo=0,hi=L.length-1;
+  while(lo<=hi){
+    const m=(lo+hi)>>1;
+    if(t<L[m].s) hi=m-1;
+    else if(t>L[m].e) lo=m+1;
+    else return m;
+  }
+  return -1;
+}
+
+/* ── TICK ── */
+function tick(){
   const t=audio.currentTime;
-
-  /* progress */
-
-  if(audio.duration){
-
-    progress.style.width=
-      (t/audio.duration)*100+'%';
-  }
-
-  let found=-1;
-
-  for(let i=0;i<lyrics.length;i++){
-
-    if(
-      t>=lyrics[i].start &&
-      t<=lyrics[i].end
-    ){
-
-      found=i;
-
-      break;
-    }
-  }
-
-  /* change line */
-
-  if(found!==current){
-
-    current=found;
-
-    if(found>=0){
-
-      line.classList.remove('active');
-
-      setTimeout(()=>{
-
-        renderLine(
-          lyrics[found].text
-        );
-
-      },80);
-
-      next.textContent=
-        lyrics[found+1]
-        ? lyrics[found+1].text
-        : '';
-    }
-  }
-
-  /* illuminate */
-
-  if(found>=0){
-
-    const item=lyrics[found];
-
-    const progressValue=
-      (t-item.start)/
-      (item.end-item.start);
-
-    illuminate(progressValue);
-  }
-
-});
-
-/* =========================
-   MUSIC NOTES
-========================= */
-
-const NOTES=['♪','♫','♩','♬'];
-
-function spawnNote(){
-
-  const note=document.createElement('div');
-
-  note.className='note';
-
-  note.textContent=
-    NOTES[Math.floor(
-      Math.random()*NOTES.length
-    )];
-
-  note.style.left=
-    Math.random()*100+'%';
-
-  note.style.top=
-    (75+Math.random()*15)+'%';
-
-  note.style.fontSize=
-    (1+Math.random()*2)+'rem';
-
-  document.body.appendChild(note);
-
-  setTimeout(()=>{
-
-    note.remove();
-
-  },5000);
+  if(audio.duration) progEl.style.width=(t/audio.duration)*100+'%';
+  const found=findLine(t);
+  if(found!==current){ current=found; showLine(found); }
+  if(found>=0) illuminate((t-L[found].s)/(L[found].e-L[found].s));
+  raf=requestAnimationFrame(tick);
 }
 
-setInterval(spawnNote,1300);
+/* ── NOTES ── */
+const NOTES=['♪','♫','♩','♬'];
+const CLRS={gold:'#fde68a',fire:'#fca5a5',rose:'#fbcfe8',violet:'#e9d5ff',ice:'#bae6fd'};
+setInterval(()=>{
+  if(!audio||audio.paused) return;
+  const n=document.createElement('div');
+  n.className='note';
+  const hue=current>=0?(HUE[current]||'gold'):'gold';
+  const c=CLRS[hue];
+  n.textContent=NOTES[Math.random()*4|0];
+  n.style.cssText=`left:${10+Math.random()*80}%;top:${68+Math.random()*20}%;font-size:${.9+Math.random()*1.7}rem;color:${c};filter:drop-shadow(0 0 7px ${c})`;
+  document.body.appendChild(n);
+  setTimeout(()=>n.remove(),4600);
+},1100);
 
-/* =========================
-   START
-========================= */
-
-startBtn.addEventListener(
-  'click',
-  async()=>{
-
-    intro.style.display='none';
-
-    stage.style.display='flex';
-
-    try{
-
-      await audio.play();
-
-    }catch(err){
-
-      alert(
-`NO SE ENCONTRO EL AUDIO.
-
-SOLUCION:
-
-1. Pon el mp3
-   en la misma carpeta.
-
-2. Debe llamarse:
-   doma.mp3
-
-3. Usa Live Server
-   en VS Code.`
-      );
-
-      console.error(err);
-    }
+/* ── START ── */
+btn.addEventListener('click',async()=>{
+  intro.style.display='none';
+  stage.style.display='flex';
+  try{
+    await audio.play();
+    raf=requestAnimationFrame(tick);
+  }catch(e){
+    alert('No se encontró el audio.\n\nPon doma.mp3 (o doma.mp4) en la misma carpeta y abre con Live Server.');
+    console.error(e);
   }
-);
-
+});
+audio.addEventListener('pause',()=>cancelAnimationFrame(raf));
+audio.addEventListener('play', ()=>{raf=requestAnimationFrame(tick);});
 </script>
-
 </body>
 </html>
