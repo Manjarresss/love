@@ -221,6 +221,9 @@ body{
 <!-- PROGRESS -->
 <div id="progressWrap"><div id="progress"></div></div>
 
+<!-- DEBUG: muestra el tiempo actual para ajustar timestamps -->
+<div id="dbg" style="position:fixed;top:12px;right:14px;background:rgba(0,0,0,.75);color:#fde68a;font-family:monospace;font-size:13px;padding:6px 14px;border-radius:8px;z-index:999;border:1px solid rgba(245,200,66,.3);letter-spacing:.05em;line-height:1.8;"></div>
+
 <audio id="audio" preload="auto" playsinline webkit-playsinline x-webkit-airplay="allow">
   <source src="Jo%CC%81sean%20Log%20-%20Doma%20%28Lyric%20Video%29.mp3" type="audio/mpeg">
   <source src="Jósean Log - Doma (Lyric Video).mp3" type="audio/mpeg">
@@ -374,12 +377,15 @@ function findLine(t){
 }
 
 /* ── TICK ── */
+const dbg = document.getElementById('dbg');
 function tick(){
   const t=audio.currentTime;
   if(audio.duration) progEl.style.width=(t/audio.duration)*100+'%';
   const found=findLine(t);
   if(found!==current){ current=found; showLine(found); }
   if(found>=0) illuminate((t-L[found].s)/(L[found].e-L[found].s));
+  // Debug: tiempo actual + índice de línea
+  if(dbg) dbg.textContent = `⏱ ${t.toFixed(2)}s\n#${found>=0?found:'–'} ${found>=0?L[found].t.slice(0,18):'(silencio)'}`;
   raf=requestAnimationFrame(tick);
 }
 
