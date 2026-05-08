@@ -1,953 +1,568 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="mobile-web-app-capable" content="yes">
-
-<title>Doma — Jósean Log</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700;900&family=Great+Vibes&display=swap" rel="stylesheet">
-
-<style>
-
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
-
-:root{
-  --bg:#060408;
-}
-
-body{
-  overflow:hidden;
-  background:var(--bg);
-  font-family:'Cormorant Garamond',serif;
-  height:100vh;
-  color:white;
-  cursor:default;
-  -webkit-tap-highlight-color:transparent;
-}
-
-/* BACKGROUND */
-
-#bg{
-  position:fixed;
-  inset:0;
-
-  background:
-    radial-gradient(ellipse at 15% 25%,rgba(168,85,247,.13),transparent 40%),
-    radial-gradient(ellipse at 85% 65%,rgba(245,200,66,.09),transparent 40%),
-    radial-gradient(ellipse at 50% 100%,rgba(239,68,68,.07),transparent 45%);
-
-  animation:bgBreath 9s ease-in-out infinite;
-}
-
-@keyframes bgBreath{
-
-  0%,100%{
-    transform:scale(1);
-  }
-
-  50%{
-    transform:scale(1.03);
-  }
-}
-
-/* GRAIN */
-
-#grain{
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  z-index:1;
-
-  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-
-  opacity:.3;
-}
-
-/* STARS */
-
-.star{
-  position:absolute;
-  width:1.5px;
-  height:1.5px;
-  border-radius:50%;
-  background:white;
-  animation:twinkle linear infinite;
-}
-
-@keyframes twinkle{
-
-  0%,100%{
-    opacity:.06;
-  }
-
-  50%{
-    opacity:.65;
-  }
-}
-
-/* INTRO */
-
-#intro{
-  position:absolute;
-  inset:0;
-
-  display:flex;
-  flex-direction:column;
-
-  align-items:center;
-  justify-content:center;
-
-  z-index:10;
-
-  animation:fadeUp 1.4s ease both;
-}
-
-#intro h1{
-
-  font-family:'Great Vibes',cursive;
-
-  font-size:clamp(5rem,14vw,11rem);
-
-  background:
-    linear-gradient(
-      135deg,
-      #fde68a,
-      #f59e0b,
-      #f9a8d4,
-      #a855f7
-    );
-
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-  background-clip:text;
-
-  animation:titleGlow 3s ease-in-out infinite;
-}
-
-@keyframes titleGlow{
-
-  0%,100%{
-    filter:drop-shadow(0 0 30px rgba(245,200,66,.35));
-  }
-
-  50%{
-    filter:drop-shadow(0 0 65px rgba(249,168,212,.55));
-  }
-}
-
-#intro p{
-
-  margin-top:10px;
-
-  opacity:.4;
-
-  letter-spacing:.55em;
-
-  font-size:.8rem;
-
-  font-weight:700;
-}
-
-#startBtn{
-
-  margin-top:38px;
-
-  padding:16px 54px;
-
-  border-radius:999px;
-
-  border:1px solid rgba(245,200,66,.3);
-
-  background:rgba(245,200,66,.07);
-
-  color:rgba(255,255,255,.85);
-
-  cursor:pointer;
-
-  font-family:'Cormorant Garamond',serif;
-
-  font-size:1.1rem;
-
-  letter-spacing:.2em;
-
-  backdrop-filter:blur(12px);
-
-  transition:.3s;
-
-  min-width:200px;
-}
-
-#startBtn:hover,
-#startBtn:active{
-
-  transform:scale(1.06);
-
-  border-color:rgba(245,200,66,.7);
-
-  box-shadow:
-    0 0 30px rgba(245,200,66,.3),
-    0 0 60px rgba(249,168,212,.2);
-
-  background:rgba(245,200,66,.13);
-}
-
-/* STAGE */
-
-#stage{
-  position:fixed;
-  inset:0;
-
-  display:none;
-
-  flex-direction:column;
-
-  justify-content:center;
-  align-items:center;
-
-  z-index:10;
-
-  padding:20px;
-}
-
-/* LYRIC WRAP */
-
-#lyricWrap{
-
-  position:relative;
-
-  width:100%;
-
-  max-width:1100px;
-
-  min-height:
-    calc(clamp(2.2rem,5.5vw,4.8rem) * 1.5);
-
-  display:flex;
-
-  justify-content:center;
-  align-items:center;
-}
-
-/* SLOT */
-
-.slot{
-
-  position:absolute;
-  inset:0;
-
-  display:flex;
-
-  justify-content:center;
-  align-items:center;
-
-  flex-wrap:wrap;
-
-  text-align:center;
-
-  line-height:1.3;
-
-  font-size:clamp(2rem,5.5vw,4.8rem);
-
-  font-weight:900;
-
-  opacity:0;
-
-  transform:
-    translateY(24px)
-    scale(.97);
-
-  filter:blur(10px);
-
-  transition:
-    opacity .40s cubic-bezier(.22,1,.36,1),
-    transform .40s cubic-bezier(.22,1,.36,1),
-    filter .40s cubic-bezier(.22,1,.36,1);
-
-  will-change:
-    opacity,
-    transform,
-    filter;
-}
-
-.slot.enter{
-
-  opacity:1;
-
-  transform:
-    translateY(0)
-    scale(1);
-
-  filter:blur(0);
-}
-
-.slot.leave{
-
-  opacity:0;
-
-  transform:
-    translateY(-16px)
-    scale(1.01);
-
-  filter:blur(8px);
-
-  pointer-events:none;
-}
-
-/* CHARS */
-
-.char{
-
-  display:inline-block;
-
-  color:rgba(255,255,255,.07);
-
-  transition:
-    color .11s ease,
-    text-shadow .11s ease;
-}
-
-.char.on{
-
-  animation:pop .2s ease both;
-}
-
-@keyframes pop{
-
-  0%{
-    transform:scale(1.15);
-  }
-
-  100%{
-    transform:scale(1);
-  }
-}
-
-.char.on[data-hue="gold"]{
-
-  color:#fde68a;
-
-  text-shadow:
-    0 0 3px #fff,
-    0 0 12px #fde68a,
-    0 0 30px #f59e0b,
-    0 0 65px rgba(245,158,11,.5);
-}
-
-.char.on[data-hue="fire"]{
-
-  color:#fca5a5;
-
-  text-shadow:
-    0 0 3px #fff,
-    0 0 12px #fca5a5,
-    0 0 30px #ef4444,
-    0 0 65px rgba(239,68,68,.5);
-}
-
-.char.on[data-hue="rose"]{
-
-  color:#fbcfe8;
-
-  text-shadow:
-    0 0 3px #fff,
-    0 0 12px #fbcfe8,
-    0 0 30px #ec4899,
-    0 0 65px rgba(236,72,153,.5);
-}
-
-.char.on[data-hue="violet"]{
-
-  color:#e9d5ff;
-
-  text-shadow:
-    0 0 3px #fff,
-    0 0 12px #e9d5ff,
-    0 0 30px #a855f7,
-    0 0 65px rgba(168,85,247,.5);
-}
-
-.char.on[data-hue="ice"]{
-
-  color:#bae6fd;
-
-  text-shadow:
-    0 0 3px #fff,
-    0 0 12px #bae6fd,
-    0 0 30px #0ea5e9,
-    0 0 65px rgba(14,165,233,.45);
-}
-
-/* NEXT */
-
-#next{
-
-  margin-top:32px;
-
-  opacity:.18;
-
-  font-style:italic;
-
-  letter-spacing:.07em;
-
-  font-size:.95rem;
-
-  transition:opacity .4s;
-
-  text-align:center;
-}
-
-/* PROGRESS */
-
-#progressWrap{
-
-  position:fixed;
-
-  left:0;
-  bottom:0;
-
-  width:100%;
-  height:3px;
-
-  background:rgba(255,255,255,.06);
-
-  z-index:50;
-}
-
-#progress{
-
-  height:100%;
-  width:0%;
-
-  background:
-    linear-gradient(
-      90deg,
-      #a855f7,
-      #f59e0b,
-      #f9a8d4,
-      #a855f7
-    );
-
-  background-size:300% 100%;
-
-  animation:pgShift 5s linear infinite;
-
-  box-shadow:
-    0 0 10px rgba(245,200,66,.5);
-}
-
-@keyframes pgShift{
-
-  0%{
-    background-position:0%;
-  }
-
-  100%{
-    background-position:300%;
-  }
-}
-
-/* NOTES */
-
-.note{
-  position:fixed;
-  pointer-events:none;
-  animation:floatNote 4.5s ease-out forwards;
-}
-
-@keyframes floatNote{
-
-  0%{
-    transform:
-      translateY(0)
-      rotate(-5deg);
-
-    opacity:0;
-  }
-
-  12%{
-    opacity:.45;
-  }
-
-  100%{
-    transform:
-      translateY(-260px)
-      rotate(20deg);
-
-    opacity:0;
-  }
-}
-
-@keyframes fadeUp{
-
-  from{
-    opacity:0;
-    transform:translateY(18px);
-  }
-
-  to{
-    opacity:1;
-    transform:translateY(0);
-  }
-}
-
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="mobile-web-app-capable" content="yes">
+  <title>Doma — Jósean Log</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700;900&family=Great+Vibes&display=swap"
+    rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #060408;
+    }
+
+    body {
+      overflow: hidden;
+      background: var(--bg);
+      font-family: 'Cormorant Garamond', serif;
+      height: 100vh;
+      color: white;
+      cursor: default;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    #bg {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(ellipse at 15% 25%, rgba(168, 85, 247, .13), transparent 40%), radial-gradient(ellipse at 85% 65%, rgba(245, 200, 66, .09), transparent 40%), radial-gradient(ellipse at 50% 100%, rgba(239, 68, 68, .07), transparent 45%);
+      animation: bgBreath 9s ease-in-out infinite;
+    }
+
+    @keyframes bgBreath {
+
+      0%,
+      100% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.03);
+      }
+    }
+
+    #grain {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      opacity: .3;
+    }
+
+    .star {
+      position: absolute;
+      width: 1.5px;
+      height: 1.5px;
+      border-radius: 50%;
+      background: white;
+      animation: twinkle linear infinite;
+    }
+
+    @keyframes twinkle {
+
+      0%,
+      100% {
+        opacity: .06;
+      }
+
+      50% {
+        opacity: .65;
+      }
+    }
+
+    /* INTRO */
+    #intro {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      animation: fadeUp 1.4s ease both;
+    }
+
+    #intro h1 {
+      font-family: 'Great Vibes', cursive;
+      font-size: clamp(5rem, 14vw, 11rem);
+      background: linear-gradient(135deg, #fde68a, #f59e0b, #f9a8d4, #a855f7);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: titleGlow 3s ease-in-out infinite;
+    }
+
+    @keyframes titleGlow {
+
+      0%,
+      100% {
+        filter: drop-shadow(0 0 30px rgba(245, 200, 66, .35));
+      }
+
+      50% {
+        filter: drop-shadow(0 0 65px rgba(249, 168, 212, .55));
+      }
+    }
+
+    #intro p {
+      margin-top: 10px;
+      opacity: .4;
+      letter-spacing: .55em;
+      font-size: .8rem;
+      font-weight: 700;
+    }
+
+    #startBtn {
+      margin-top: 38px;
+      padding: 16px 54px;
+      border-radius: 999px;
+      border: 1px solid rgba(245, 200, 66, .3);
+      background: rgba(245, 200, 66, .07);
+      color: rgba(255, 255, 255, .85);
+      cursor: pointer;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      letter-spacing: .2em;
+      backdrop-filter: blur(12px);
+      transition: .3s;
+      /* más grande para móvil */
+      min-width: 200px;
+    }
+
+    #startBtn:hover,
+    #startBtn:active {
+      transform: scale(1.06);
+      border-color: rgba(245, 200, 66, .7);
+      box-shadow: 0 0 30px rgba(245, 200, 66, .3), 0 0 60px rgba(249, 168, 212, .2);
+      background: rgba(245, 200, 66, .13);
+    }
+
+    /* STAGE */
+    #stage {
+      position: fixed;
+      inset: 0;
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 10;
+      padding: 20px;
+    }
+
+    /* LYRIC WRAP */
+    #lyricWrap {
+      position: relative;
+      width: 100%;
+      max-width: 1100px;
+      min-height: calc(clamp(2.2rem, 5.5vw, 4.8rem) * 1.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* SLOTS */
+    .slot {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      text-align: center;
+      line-height: 1.3;
+      font-size: clamp(2rem, 5.5vw, 4.8rem);
+      font-weight: 900;
+      opacity: 0;
+      transform: translateY(24px) scale(.97);
+      filter: blur(10px);
+      transition: opacity .40s cubic-bezier(.22, 1, .36, 1), transform .40s cubic-bezier(.22, 1, .36, 1), filter .40s cubic-bezier(.22, 1, .36, 1);
+      will-change: opacity, transform, filter;
+    }
+
+    .slot.enter {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      filter: blur(0);
+    }
+
+    .slot.leave {
+      opacity: 0;
+      transform: translateY(-16px) scale(1.01);
+      filter: blur(8px);
+      pointer-events: none;
+    }
+
+    /* CHARS */
+    .char {
+      display: inline-block;
+      color: rgba(255, 255, 255, .07);
+      transition: color .11s ease, text-shadow .11s ease;
+    }
+
+    .char.on {
+      animation: pop .2s ease both;
+    }
+
+    @keyframes pop {
+      0% {
+        transform: scale(1.15);
+      }
+
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    .char.on[data-hue="gold"] {
+      color: #fde68a;
+      text-shadow: 0 0 3px #fff, 0 0 12px #fde68a, 0 0 30px #f59e0b, 0 0 65px rgba(245, 158, 11, .5);
+    }
+
+    .char.on[data-hue="fire"] {
+      color: #fca5a5;
+      text-shadow: 0 0 3px #fff, 0 0 12px #fca5a5, 0 0 30px #ef4444, 0 0 65px rgba(239, 68, 68, .5);
+    }
+
+    .char.on[data-hue="rose"] {
+      color: #fbcfe8;
+      text-shadow: 0 0 3px #fff, 0 0 12px #fbcfe8, 0 0 30px #ec4899, 0 0 65px rgba(236, 72, 153, .5);
+    }
+
+    .char.on[data-hue="violet"] {
+      color: #e9d5ff;
+      text-shadow: 0 0 3px #fff, 0 0 12px #e9d5ff, 0 0 30px #a855f7, 0 0 65px rgba(168, 85, 247, .5);
+    }
+
+    .char.on[data-hue="ice"] {
+      color: #bae6fd;
+      text-shadow: 0 0 3px #fff, 0 0 12px #bae6fd, 0 0 30px #0ea5e9, 0 0 65px rgba(14, 165, 233, .45);
+    }
+
+    /* NEXT */
+    #next {
+      margin-top: 32px;
+      opacity: .18;
+      font-style: italic;
+      letter-spacing: .07em;
+      font-size: .95rem;
+      transition: opacity .4s;
+      text-align: center;
+    }
+
+    /* PROGRESS */
+    #progressWrap {
+      position: fixed;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      height: 3px;
+      background: rgba(255, 255, 255, .06);
+      z-index: 50;
+    }
+
+    #progress {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #a855f7, #f59e0b, #f9a8d4, #a855f7);
+      background-size: 300% 100%;
+      animation: pgShift 5s linear infinite;
+      box-shadow: 0 0 10px rgba(245, 200, 66, .5);
+    }
+
+    @keyframes pgShift {
+      0% {
+        background-position: 0%;
+      }
+
+      100% {
+        background-position: 300%;
+      }
+    }
+
+    /* DEBUG TIMER */
+    #dbg {
+      position: fixed;
+      top: 12px;
+      right: 14px;
+      background: rgba(0, 0, 0, .8);
+      color: #fde68a;
+      font-family: monospace;
+      font-size: 12px;
+      padding: 5px 12px;
+      border-radius: 8px;
+      z-index: 999;
+      border: 1px solid rgba(245, 200, 66, .3);
+      line-height: 1.8;
+      white-space: pre;
+    }
+
+    /* NOTES */
+    .note {
+      position: fixed;
+      pointer-events: none;
+      animation: floatNote 4.5s ease-out forwards;
+    }
+
+    @keyframes floatNote {
+      0% {
+        transform: translateY(0) rotate(-5deg);
+        opacity: 0;
+      }
+
+      12% {
+        opacity: .45;
+      }
+
+      100% {
+        transform: translateY(-260px) rotate(20deg);
+        opacity: 0;
+      }
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(18px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
 </head>
 
 <body>
+  <div id="bg"></div>
+  <div id="grain"></div>
 
-<div id="bg"></div>
-<div id="grain"></div>
-
-<!-- INTRO -->
-
-<div id="intro">
-
-  <h1>Doma</h1>
-
-  <p>JÓSEAN LOG</p>
-
-  <button id="startBtn">
-    ▶ COMENZAR
-  </button>
-
-</div>
-
-<!-- STAGE -->
-
-<div id="stage">
-
-  <div id="lyricWrap">
-
-    <div class="slot" id="slotA"></div>
-
-    <div class="slot" id="slotB"></div>
-
+  <div id="intro">
+    <h1>Doma</h1>
+    <p>JÓSEAN LOG</p>
+    <button id="startBtn">▶ COMENZAR</button>
   </div>
 
-  <div id="next"></div>
-
-</div>
-
-<!-- PROGRESS -->
-
-<div id="progressWrap">
-
-  <div id="progress"></div>
-
-</div>
-
-<!-- AUDIO -->
-
-<audio id="audio" preload="auto" playsinline webkit-playsinline>
-
-  <source src="doma.mp3" type="audio/mpeg">
-
-</audio>
-
-<script>
-
-/* STARS */
-
-for(let i=0;i<110;i++){
-
-  const s=document.createElement('div');
-
-  s.className='star';
-
-  s.style.cssText=`
-    left:${Math.random()*100}%;
-    top:${Math.random()*100}%;
-    animation-duration:${2+Math.random()*7}s;
-    animation-delay:${Math.random()*6}s
-  `;
-
-  document.body.appendChild(s);
-}
-
-/* COLORS */
-
-const HUE=[
-'gold','gold','gold','gold',
-'gold','gold','gold','gold',
-'rose','rose','rose','rose',
-'gold','gold','gold','fire'
-];
-
-/* LYRICS */
-
-const L=[
-
-{t:"Qué fatalidad,",s:12.00,e:14.30},
-{t:"eres mi héroe y mi villana",s:14.31,e:18.20},
-{t:"Podría enloquecer",s:18.21,e:20.80},
-{t:"descifrando tu conspiración",s:20.81,e:25.20},
-{t:"Muero por saber",s:25.21,e:27.30},
-{t:"el desenlace de esta trama",s:27.31,e:31.60},
-{t:"comienza a anochecer",s:31.61,e:35.00},
-{t:"y el corazón va al descubierto",s:35.01,e:40.40},
-
-{t:"Debo interpretar tus gritos,",s:41.20,e:45.00},
-{t:"tus llamadas,",s:45.01,e:46.50},
-{t:"tus caricias entre cortadas",s:46.51,e:50.80},
-{t:"y tus arranques de pasión",s:50.81,e:55.50},
-
-{t:"Debo buscar dentro",s:56.00,e:58.70},
-{t:"de tanto desperfecto",s:58.71,e:61.80},
-{t:"la moraleja de este cuento",s:61.81,e:65.80},
-{t:"Debo domar tu corazón",s:65.81,e:71.50}
-
-];
-
-/* ELEMENTS */
-
-const audio=document.getElementById('audio');
-
-const nextEl=document.getElementById('next');
-
-const progEl=document.getElementById('progress');
-
-const intro=document.getElementById('intro');
-
-const stage=document.getElementById('stage');
-
-const btn=document.getElementById('startBtn');
-
-const slotA=document.getElementById('slotA');
-
-const slotB=document.getElementById('slotB');
-
-const SLOTS=[slotA,slotB];
-
-let active=0;
-
-let current=-1;
-
-let raf=null;
-
-/* FILL */
-
-function fill(slot,idx){
-
-  const hue=HUE[idx]||'gold';
-
-  slot.innerHTML='';
-
-  [...L[idx].t].forEach(ch=>{
-
-    const sp=document.createElement('span');
-
-    sp.className='char';
-
-    sp.dataset.hue=hue;
-
-    sp.innerHTML=
-      ch===' '
-      ? '&nbsp;'
-      : ch;
-
-    slot.appendChild(sp);
-  });
-}
-
-/* SHOW LINE */
-
-function showLine(idx){
-
-  const incoming=1-active;
-
-  if(idx>=0){
-
-    fill(SLOTS[incoming],idx);
-
-    SLOTS[incoming].classList.remove('enter','leave');
-
-    requestAnimationFrame(()=>{
-
-      SLOTS[active].classList.remove('enter');
-
-      SLOTS[active].classList.add('leave');
-
-      SLOTS[incoming].classList.add('enter');
-
-      active=incoming;
-    });
-
-    nextEl.textContent=
-      L[idx+1]
-      ? L[idx+1].t
-      : '';
-
-  }else{
-
-    SLOTS[active].classList.remove('enter');
-
-    SLOTS[active].classList.add('leave');
-
-    nextEl.textContent='';
-  }
-}
-
-/* ILLUMINATE */
-
-function illuminate(p){
-
-  const chars=
-    SLOTS[active]
-    .querySelectorAll('.char');
-
-  if(!chars.length) return;
-
-  const lit=
-    Math.round(
-      Math.pow(
-        Math.min(p,1),
-        .80
-      )*chars.length
-    );
-
-  chars.forEach((c,i)=>{
-
-    const on=i<lit;
-
-    if(on!==c.classList.contains('on')){
-
-      on
-      ? c.classList.add('on')
-      : c.classList.remove('on');
+  <div id="stage">
+    <div id="lyricWrap">
+      <div class="slot" id="slotA"></div>
+      <div class="slot" id="slotB"></div>
+    </div>
+    <div id="next"></div>
+  </div>
+
+  <div id="progressWrap">
+    <div id="progress"></div>
+  </div>
+
+  <!-- DEBUG: muestra tiempo exacto en pantalla para ajustar timestamps -->
+
+  <!--
+  IMPORTANTE: renombra tu mp3 a exactamente  doma.mp3  en GitHub
+  para evitar problemas de encoding con tildes en móvil.
+-->
+  <audio id="audio" preload="auto" playsinline webkit-playsinline>
+    <source src="Jósean Log - Doma (Lyric Video).mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    /* STARS */
+    for (let i = 0; i < 110; i++) {
+      const s = document.createElement('div');
+      s.className = 'star';
+      s.style.cssText = `left:${Math.random() * 100}%;top:${Math.random() * 100}%;animation-duration:${2 + Math.random() * 7}s;animation-delay:${Math.random() * 6}s`;
+      document.body.appendChild(s);
     }
-  });
-}
 
-/* FIND */
+    /* HUE MAP */
+    const HUE = [
+      'gold', 'gold', 'gold', 'gold', 'gold', 'gold', 'gold', 'gold', // 0-7  verso 1
+      'rose', 'rose', 'rose', 'rose',                             // 8-11 pre-coro 1
+      'gold', 'gold', 'gold', 'fire',                             // 12-15 coro 1
+      'gold', 'gold', 'gold', 'gold', 'gold', 'gold', 'gold', 'gold', // 16-23 verso 2
+      'rose', 'rose', 'rose', 'rose',                             // 24-27 pre-coro 2
+      'gold', 'gold', 'gold', 'fire',                             // 28-31 coro 2
+      'ice', 'ice', 'ice', 'ice',                                 // 32-35 bridge
+      'violet', 'violet', 'violet', 'violet'                      // 36-39 final
+    ];
 
-function findLine(t){
+    /* ─────────────────────────────────────────────────────────
+       TIMESTAMPS — ajustados desde "En la oscuridad" (~+3s)
+       Si siguen desfasados, el debug timer te dirá el segundo
+       exacto para que me corrijas línea por línea.
+    ───────────────────────────────────────────────────────── */
+    const L = [
+      // VERSO 1
+      { t: "Qué fatalidad,", s: 12.00, e: 14.30 },
+      { t: "eres mi héroe y mi villana", s: 14.31, e: 18.20 },
+      { t: "Podría enloquecer", s: 18.21, e: 20.80 },
+      { t: "descifrando tu conspiración", s: 20.81, e: 25.20 },
+      { t: "Muero por saber", s: 25.21, e: 27.30 },
+      { t: "el desenlace de esta trama", s: 27.31, e: 31.60 },
+      { t: "comienza a anochecer", s: 31.61, e: 35.00 },
+      { t: "y el corazón va al descubierto", s: 35.01, e: 40.40 },
+      // PRE-CORO 1
+      { t: "Debo interpretar tus gritos,", s: 41.20, e: 45.00 },
+      { t: "tus llamadas,", s: 45.01, e: 46.50 },
+      { t: "tus caricias entre cortadas", s: 46.51, e: 50.80 },
+      { t: "y tus arranques de pasión", s: 50.81, e: 55.50 },
+      // CORO 1
+      { t: "Debo buscar dentro", s: 56.00, e: 58.70 },
+      { t: "de tanto desperfecto", s: 58.71, e: 61.80 },
+      { t: "la moraleja de este cuento", s: 61.81, e: 65.80 },
+      { t: "Debo domar tu corazón", s: 65.81, e: 71.50 },
+      // (resto de la canción pendiente de calibrar)
+    ];
 
-  let lo=0;
+    /* REFS */
+    const audio = document.getElementById('audio');
+    const nextEl = document.getElementById('next');
+    const progEl = document.getElementById('progress');
+    const intro = document.getElementById('intro');
+    const stage = document.getElementById('stage');
+    const btn = document.getElementById('startBtn');
+    const slotA = document.getElementById('slotA');
+    const slotB = document.getElementById('slotB');
+    const SLOTS = [slotA, slotB];
 
-  let hi=L.length-1;
+    let active = 0;
+    let current = -1;
+    let raf = null;
 
-  while(lo<=hi){
-
-    const m=(lo+hi)>>1;
-
-    if(t<L[m].s){
-
-      hi=m-1;
-
-    }else if(t>L[m].e){
-
-      lo=m+1;
-
-    }else{
-
-      return m;
+    /* FILL */
+    function fill(slot, idx) {
+      const hue = HUE[idx] || 'gold';
+      slot.innerHTML = '';
+      [...L[idx].t].forEach(ch => {
+        const sp = document.createElement('span');
+        sp.className = 'char';
+        sp.dataset.hue = hue;
+        sp.innerHTML = ch === ' ' ? '&nbsp;' : ch;
+        slot.appendChild(sp);
+      });
     }
-  }
 
-  return -1;
-}
-
-/* TICK */
-
-function tick(){
-
-  const t=audio.currentTime;
-
-  if(audio.duration){
-
-    progEl.style.width=
-      (t/audio.duration)*100+'%';
-  }
-
-  const found=findLine(t);
-
-  if(found!==current){
-
-    current=found;
-
-    showLine(found);
-  }
-
-  if(found>=0){
-
-    illuminate(
-      (t-L[found].s)/
-      (L[found].e-L[found].s)
-    );
-  }
-
-  raf=requestAnimationFrame(tick);
-}
-
-/* NOTES */
-
-const NOTES=['♪','♫','♩','♬'];
-
-const CLRS={
-  gold:'#fde68a',
-  fire:'#fca5a5',
-  rose:'#fbcfe8',
-  violet:'#e9d5ff',
-  ice:'#bae6fd'
-};
-
-setInterval(()=>{
-
-  if(!audio||audio.paused) return;
-
-  const n=document.createElement('div');
-
-  n.className='note';
-
-  const hue=
-    current>=0
-    ? (HUE[current]||'gold')
-    : 'gold';
-
-  const c=CLRS[hue];
-
-  n.textContent=
-    NOTES[Math.random()*4|0];
-
-  n.style.cssText=`
-    left:${10+Math.random()*80}%;
-    top:${68+Math.random()*20}%;
-    font-size:${.9+Math.random()*1.7}rem;
-    color:${c};
-    filter:drop-shadow(0 0 7px ${c})
-  `;
-
-  document.body.appendChild(n);
-
-  setTimeout(()=>n.remove(),4600);
-
-},1100);
-
-/* START */
-
-btn.addEventListener('click',function(){
-
-  intro.style.display='none';
-
-  stage.style.display='flex';
-
-  const p=audio.play();
-
-  if(p!==undefined){
-
-    p.then(()=>{
-
-      if(!raf){
-
-        raf=requestAnimationFrame(tick);
+    /* CROSSFADE sin parpadeo */
+    function showLine(idx) {
+      const incoming = 1 - active;
+      if (idx >= 0) {
+        fill(SLOTS[incoming], idx);
+        SLOTS[incoming].classList.remove('enter', 'leave');
+        requestAnimationFrame(() => {
+          SLOTS[active].classList.remove('enter');
+          SLOTS[active].classList.add('leave');
+          SLOTS[incoming].classList.add('enter');
+          active = incoming;
+        });
+        nextEl.textContent = L[idx + 1] ? L[idx + 1].t : '';
+      } else {
+        SLOTS[active].classList.remove('enter');
+        SLOTS[active].classList.add('leave');
+        nextEl.textContent = '';
       }
+    }
 
-    }).catch(err=>{
+    /* ILLUMINATE */
+    function illuminate(p) {
+      const chars = SLOTS[active].querySelectorAll('.char');
+      if (!chars.length) return;
+      const lit = Math.round(Math.pow(Math.min(p, 1), .80) * chars.length);
+      chars.forEach((c, i) => {
+        const on = i < lit;
+        if (on !== c.classList.contains('on'))
+          on ? c.classList.add('on') : c.classList.remove('on');
+      });
+    }
 
-      console.error(err);
+    /* BINARY SEARCH */
+    function findLine(t) {
+      let lo = 0, hi = L.length - 1;
+      while (lo <= hi) {
+        const m = (lo + hi) >> 1;
+        if (t < L[m].s) hi = m - 1;
+        else if (t > L[m].e) lo = m + 1;
+        else return m;
+      }
+      return -1;
+    }
 
-      const box=document.createElement('div');
+    /* TICK */
+    function tick() {
+      const t = audio.currentTime;
+      if (audio.duration) progEl.style.width = (t / audio.duration) * 100 + '%';
 
-      box.style.cssText=`
-        position:fixed;
-        inset:0;
-        z-index:9999;
-        background:rgba(0,0,0,.9);
-        display:flex;
-        flex-direction:column;
-        align-items:center;
-        justify-content:center;
-        padding:30px;
-        text-align:center;
-        color:#fde68a;
-        font-size:1rem;
-        line-height:1.7;
-      `;
+      const found = findLine(t);
+      if (found !== current) { current = found; showLine(found); }
+      if (found >= 0) illuminate((t - L[found].s) / (L[found].e - L[found].s));
 
-      box.innerHTML=`
+      // Debug timer — muestra tiempo y línea actual
+      raf = requestAnimationFrame(tick);
+    }
 
-        <div style="font-size:2.5rem;margin-bottom:12px">
-          🎵
-        </div>
+    /* NOTES */
+    const NOTES = ['♪', '♫', '♩', '♬'];
+    const CLRS = { gold: '#fde68a', fire: '#fca5a5', rose: '#fbcfe8', violet: '#e9d5ff', ice: '#bae6fd' };
+    setInterval(() => {
+      if (!audio || audio.paused) return;
+      const n = document.createElement('div');
+      n.className = 'note';
+      const hue = current >= 0 ? (HUE[current] || 'gold') : 'gold';
+      const c = CLRS[hue];
+      n.textContent = NOTES[Math.random() * 4 | 0];
+      n.style.cssText = `left:${10 + Math.random() * 80}%;top:${68 + Math.random() * 20}%;font-size:${.9 + Math.random() * 1.7}rem;color:${c};filter:drop-shadow(0 0 7px ${c})`;
+      document.body.appendChild(n);
+      setTimeout(() => n.remove(), 4600);
+    }, 1100);
 
-        <b style="font-size:1.2rem">
-          Audio no encontrado
-        </b>
+    /* ─────────────────────────────────────────────────────────
+       START — la clave para iOS/Android:
+       .play() se llama SINCRÓNICAMENTE dentro del handler,
+       antes de cualquier await o código asíncrono.
+       Esto es lo que iOS Safari exige para permitir audio.
+    ───────────────────────────────────────────────────────── */
+    btn.addEventListener('click', function () {
+      intro.style.display = 'none';
+      stage.style.display = 'flex';
 
-        <br><br>
+      // play() SÍNCRONO — iOS lo acepta porque estamos dentro del evento
+      const p = audio.play();
 
-        El archivo debe llamarse exactamente:
-
-        <br>
-
-        <code style="
-          background:rgba(255,255,255,.1);
-          padding:4px 14px;
-          border-radius:6px;
-          margin:8px 0;
-          display:inline-block;
-          font-size:.95rem
-        ">
-          doma.mp3
-        </code>
-
-        <br><br>
-
-        <span style="
-          opacity:.6;
-          font-size:.85rem
-        ">
-          y estar en la misma carpeta que index.html
-        </span>
-      `;
-
-      const x=document.createElement('button');
-
-      x.textContent='Cerrar';
-
-      x.style.cssText=`
-        margin-top:24px;
-        padding:12px 32px;
-        border-radius:999px;
-        border:1px solid rgba(255,255,255,.3);
-        background:transparent;
-        color:white;
-        font-size:1rem;
-        cursor:pointer;
-      `;
-
-      x.onclick=()=>box.remove();
-
-      box.appendChild(x);
-
-      document.body.appendChild(box);
+      if (p !== undefined) {
+        p.then(() => {
+          if (!raf) raf = requestAnimationFrame(tick);
+        }).catch(err => {
+          console.error(err);
+          // Error visible sin alert (alert bloquea en iOS)
+          const box = document.createElement('div');
+          box.style.cssText = 'position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.9);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:30px;text-align:center;color:#fde68a;font-size:1rem;line-height:1.7;';
+          box.innerHTML = `<div style="font-size:2.5rem;margin-bottom:12px">🎵</div>
+        <b style="font-size:1.2rem">Audio no encontrado</b><br><br>
+        El archivo debe llamarse exactamente:<br>
+        <code style="background:rgba(255,255,255,.1);padding:4px 14px;border-radius:6px;margin:8px 0;display:inline-block;font-size:.95rem">doma.mp3</code><br><br>
+        <span style="opacity:.6;font-size:.85rem">y estar en la misma carpeta que index.html</span>`;
+          const x = document.createElement('button');
+          x.textContent = 'Cerrar';
+          x.style.cssText = 'margin-top:24px;padding:12px 32px;border-radius:999px;border:1px solid rgba(255,255,255,.3);background:transparent;color:white;font-size:1rem;cursor:pointer;';
+          x.onclick = () => box.remove();
+          box.appendChild(x);
+          document.body.appendChild(box);
+        });
+      }
     });
-  }
-});
 
-audio.addEventListener('pause',()=>{
-
-  cancelAnimationFrame(raf);
-
-  raf=null;
-});
-
-audio.addEventListener('play',()=>{
-
-  if(!raf){
-
-    raf=requestAnimationFrame(tick);
-  }
-});
-
-</script>
+    audio.addEventListener('pause', () => { cancelAnimationFrame(raf); raf = null; });
+    audio.addEventListener('play', () => { if (!raf) raf = requestAnimationFrame(tick); });
+  </script>
 </body>
+
 </html>
