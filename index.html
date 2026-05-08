@@ -2,7 +2,10 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="mobile-web-app-capable" content="yes">
 <title>Doma — Jósean Log</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700;900&family=Great+Vibes&display=swap" rel="stylesheet">
 
@@ -218,8 +221,10 @@ body{
 <!-- PROGRESS -->
 <div id="progressWrap"><div id="progress"></div></div>
 
-<audio id="audio" preload="auto">
-  <source src="Jósean Log - Doma (Lyric Video).mp3" type="video/mp4">
+<audio id="audio" preload="auto" playsinline webkit-playsinline x-webkit-airplay="allow">
+  <source src="Jo%CC%81sean%20Log%20-%20Doma%20%28Lyric%20Video%29.mp3" type="audio/mpeg">
+  <source src="Jósean Log - Doma (Lyric Video).mp3" type="audio/mpeg">
+  <source src="doma.mp3" type="audio/mpeg">
 </audio>
 
 <script>
@@ -393,20 +398,47 @@ setInterval(()=>{
   setTimeout(()=>n.remove(),4600);
 },1100);
 
-/* ── START ── */
-btn.addEventListener('click',async()=>{
+/* ── START ──
+   En iOS/Android el audio SOLO puede iniciar dentro de un evento
+   de usuario (click/touchstart) y de forma síncrona.
+   No usar async/await ni Promises antes de .play().
+*/
+btn.addEventListener('click', function(){
   intro.style.display='none';
   stage.style.display='flex';
-  try{
-    await audio.play();
-    raf=requestAnimationFrame(tick);
-  }catch(e){
-    alert('No se encontró el audio.\n\nPon doma.mp3 (o doma.mp4) en la misma carpeta y abre con Live Server.');
-    console.error(e);
+
+  // Llamada síncrona dentro del evento — iOS la acepta
+  const playPromise = audio.play();
+
+  if(playPromise !== undefined){
+    playPromise
+      .then(()=>{
+        // Reproducción iniciada correctamente
+        if(!raf) raf=requestAnimationFrame(tick);
+      })
+      .catch(err=>{
+        console.error('Audio error:', err);
+        // Mostrar mensaje de error útil sin alert() (bloquea en móvil)
+        const msg=document.createElement('div');
+        msg.style.cssText='position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(0,0,0,.85);z-index:999;padding:30px;text-align:center;font-size:1rem;line-height:1.6;color:#fde68a;';
+        msg.innerHTML=`<div style="font-size:2rem;margin-bottom:16px">⚠️</div>
+          <b>No se encontró el audio</b><br><br>
+          Asegúrate de que el archivo se llame exactamente:<br>
+          <code style="background:rgba(255,255,255,.1);padding:4px 10px;border-radius:6px;margin-top:8px;display:inline-block">
+            Jósean Log - Doma (Lyric Video).mp3
+          </code><br><br>
+          y esté en la misma carpeta que el index.html`;
+        const close=document.createElement('button');
+        close.textContent='✕ Cerrar';
+        close.style.cssText='margin-top:20px;padding:10px 28px;border-radius:999px;border:1px solid rgba(255,255,255,.3);background:transparent;color:white;cursor:pointer;font-size:.9rem;';
+        close.onclick=()=>msg.remove();
+        msg.appendChild(close);
+        document.body.appendChild(msg);
+      });
   }
 });
-audio.addEventListener('pause',()=>cancelAnimationFrame(raf));
-audio.addEventListener('play', ()=>{raf=requestAnimationFrame(tick);});
+audio.addEventListener('pause',()=>{ cancelAnimationFrame(raf); raf=null; });
+audio.addEventListener('play', ()=>{ if(!raf) raf=requestAnimationFrame(tick); });
 </script>
 </body>
 </html>
